@@ -2,7 +2,7 @@
 
 Step 1 (user): Integration-level settings — weather entities, location.
 Step 2 (zone): First zone settings — soil, vegetation, sprinkler, slope, sunlight.
-OptionsFlow: Add zones after initial setup.
+OptionsFlow: Add zones, and view/edit existing zones, after initial setup.
 Reconfigure: Edit integration-level settings.
 
 Zone configuration is stored in config_entry.options keyed by zone_id.
@@ -253,7 +253,17 @@ class DxHyveIrrigationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 # ── Options flow ──────────────────────────────────────────────────────────────
 
 class DxHyveIrrigationOptionsFlow(config_entries.OptionsFlow):
-    """Handle options — add zones after initial setup."""
+    """Handle options — add and edit zones after initial setup."""
+
+    def __init__(self) -> None:
+        self._editing_zone_id: str | None = None
+
+    def _zones(self) -> dict[str, dict]:
+        return {
+            zone_id: zone_cfg
+            for zone_id, zone_cfg in self.config_entry.options.items()
+            if isinstance(zone_cfg, dict) and "soil_type" in zone_cfg
+        }
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
@@ -262,15 +272,19 @@ class DxHyveIrrigationOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             if user_input.get("action") == "add_zone":
                 return await self.async_step_add_zone()
+            if user_input.get("action") == "edit_zone":
+                return await self.async_step_select_zone()
+
+        actions = [{"value": "add_zone", "label": "Add a new zone"}]
+        if self._zones():
+            actions.append({"value": "edit_zone", "label": "Edit an existing zone"})
 
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema(
                 {
                     vol.Required("action", default="add_zone"): selector.SelectSelector(
-                        selector.SelectSelectorConfig(
-                            options=[{"value": "add_zone", "label": "Add a new zone"}]
-                        )
+                        selector.SelectSelectorConfig(options=actions)
                     )
                 }
             ),
@@ -289,4 +303,50 @@ class DxHyveIrrigationOptionsFlow(config_entries.OptionsFlow):
         return self.async_show_form(
             step_id="add_zone",
             data_schema=ZONE_SCHEMA,
+        )
+
+    async def async_step_select_zone(
+        self, user_input: dict[str, Any] | None = None
+    ) -> config_entries.FlowResult:
+        """Pick which existing zone to view/edit."""
+        zones = self._zones()
+
+        if user_input is not None:
+            self._editing_zone_id = user_input["zone_id"]
+            return await self.async_step_edit_zone()
+
+        zone_options = [
+            {"value": zone_id, "label": zone_cfg.get("zone_name", zone_id)}
+            for zone_id, zone_cfg in zones.items()
+        ]
+        return self.async_show_form(
+            step_id="select_zone",
+            data_schema=vol.Schema(
+                {
+                    vol.Required("zone_id"): selector.SelectSelector(
+                        selector.SelectSelectorConfig(options=zone_options)
+                    )
+                }
+            ),
+        )
+
+    async def async_step_edit_zone(
+        self, user_input: dict[str, Any] | None = None
+    ) -> config_entries.FlowResult:
+        """View and update settings for the selected zone."""
+        zone_id = self._editing_zone_id
+        current_options = dict(self.config_entry.options)
+
+        if user_input is not None:
+            current_options[zone_id] = user_input
+            return self.async_create_entry(title="", data=current_options)
+
+        return self.async_show_form(
+            step_id="edit_zone",
+            data_schema=self.add_suggested_values_to_schema(
+                ZONE_SCHEMA, current_options.get(zone_id, {})
+            ),
+            description_placeholders={
+                "zone_name": current_options.get(zone_id, {}).get("zone_name", zone_id)
+            },
         )

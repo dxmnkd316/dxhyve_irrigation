@@ -1,0 +1,12 @@
+{
+  "domain": "dxhyve_irrigation",
+  "name": "DxHyve Smart Irrigation",
+  "version": "0.1.0",
+  "documentation": "https://github.com/dxmnkd316/dxhyve_irrigation",
+  "dependencies": ["bhyve"],
+  "after_dependencies": ["bhyve"],
+  "codeowners": ["@dxmnkd316"],
+  "requirements": [],
+  "iot_class": "local_polling",
+  "config_flow": true
+}

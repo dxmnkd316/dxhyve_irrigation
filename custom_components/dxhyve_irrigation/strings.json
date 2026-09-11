@@ -1,0 +1,99 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DxHyve Smart Irrigation — Integration Settings",
+        "description": "Connect your weather entities and set your location.",
+        "data": {
+          "weather_entity": "Weather Entity",
+          "rain_gauge_entity": "Rain Gauge Sensor (optional)",
+          "temperature_entity": "Temperature Sensor (optional, overrides weather entity)",
+          "humidity_entity": "Humidity Sensor (optional)",
+          "wind_entity": "Wind Speed Sensor (optional)",
+          "solar_entity": "Solar Radiation Sensor (optional)",
+          "latitude": "Site Latitude (decimal degrees)"
+        }
+      },
+      "zone": {
+        "title": "DxHyve Smart Irrigation — Zone 1 Settings",
+        "description": "Configure your first irrigation zone.",
+        "data": {
+          "zone_name": "Zone Name (e.g. Front Lawn)",
+          "zone_short_name": "Short Name (max 6 chars, e.g. FRONT)",
+          "valve_entity": "BHyve Valve Switch Entity",
+          "water_sensor_entity": "BHyve Water Usage Sensor (optional)",
+          "soil_type": "Soil Type",
+          "vegetation_type": "Vegetation Type",
+          "sprinkler_type": "Sprinkler Type",
+          "sunlight": "Daily Sunlight Exposure",
+          "slope": "Slope Category",
+          "percent_of_rain": "Effective Rain Credit (%)",
+          "odd_even": "Odd/Even Watering Restriction",
+          "watering_mode": "Watering Mode",
+          "ar_override": "Application Rate Override (in/hr)",
+          "e_override": "Efficiency Override (%)",
+          "kp_override": "Plant Factor (Kp) Override",
+          "kmc_override": "Microclimate Factor (Kmc) Override",
+          "mad": "Management Allowable Depletion (0.20–0.70)",
+          "rz_override": "Root Zone Depth Override (inches)",
+          "zone_area_sqft": "Zone Area (sq ft, optional)",
+          "zone_priority": "Zone Priority (1=highest)"
+        }
+      }
+    },
+    "step": {
+      "reconfigure": {
+        "title": "Reconfigure DxHyve Smart Irrigation",
+        "description": "Update weather entities or location settings.",
+        "data": {
+          "weather_entity": "Weather Entity",
+          "rain_gauge_entity": "Rain Gauge Sensor (optional)",
+          "temperature_entity": "Temperature Sensor (optional)",
+          "humidity_entity": "Humidity Sensor (optional)",
+          "wind_entity": "Wind Speed Sensor (optional)",
+          "solar_entity": "Solar Radiation Sensor (optional)",
+          "latitude": "Site Latitude (decimal degrees)"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only one DxHyve Irrigation integration is allowed.",
+      "reconfigure_successful": "Integration settings updated successfully."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DxHyve Smart Irrigation Options",
+        "data": {
+          "action": "Action"
+        }
+      },
+      "add_zone": {
+        "title": "Add Irrigation Zone",
+        "data": {
+          "zone_name": "Zone Name",
+          "zone_short_name": "Short Name (max 6 chars)",
+          "valve_entity": "BHyve Valve Switch Entity",
+          "water_sensor_entity": "BHyve Water Usage Sensor (optional)",
+          "soil_type": "Soil Type",
+          "vegetation_type": "Vegetation Type",
+          "sprinkler_type": "Sprinkler Type",
+          "sunlight": "Daily Sunlight Exposure",
+          "slope": "Slope Category",
+          "percent_of_rain": "Effective Rain Credit (%)",
+          "odd_even": "Odd/Even Watering Restriction",
+          "watering_mode": "Watering Mode",
+          "ar_override": "Application Rate Override (in/hr)",
+          "e_override": "Efficiency Override (%)",
+          "kp_override": "Plant Factor (Kp) Override",
+          "kmc_override": "Microclimate Factor (Kmc) Override",
+          "mad": "Management Allowable Depletion (0.20–0.70)",
+          "rz_override": "Root Zone Depth Override (inches)",
+          "zone_area_sqft": "Zone Area (sq ft, optional)",
+          "zone_priority": "Zone Priority (1=highest)"
+        }
+      }
+    }
+  }
+}

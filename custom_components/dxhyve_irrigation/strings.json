@@ -39,9 +39,7 @@
           "zone_area_sqft": "Zone Area (sq ft, optional)",
           "zone_priority": "Zone Priority (1=highest)"
         }
-      }
-    },
-    "step": {
+      },
       "reconfigure": {
         "title": "Reconfigure DxHyve Smart Irrigation",
         "description": "Update weather entities or location settings.",
@@ -71,6 +69,38 @@
       },
       "add_zone": {
         "title": "Add Irrigation Zone",
+        "data": {
+          "zone_name": "Zone Name",
+          "zone_short_name": "Short Name (max 6 chars)",
+          "valve_entity": "BHyve Valve Switch Entity",
+          "water_sensor_entity": "BHyve Water Usage Sensor (optional)",
+          "soil_type": "Soil Type",
+          "vegetation_type": "Vegetation Type",
+          "sprinkler_type": "Sprinkler Type",
+          "sunlight": "Daily Sunlight Exposure",
+          "slope": "Slope Category",
+          "percent_of_rain": "Effective Rain Credit (%)",
+          "odd_even": "Odd/Even Watering Restriction",
+          "watering_mode": "Watering Mode",
+          "ar_override": "Application Rate Override (in/hr)",
+          "e_override": "Efficiency Override (%)",
+          "kp_override": "Plant Factor (Kp) Override",
+          "kmc_override": "Microclimate Factor (Kmc) Override",
+          "mad": "Management Allowable Depletion (0.20–0.70)",
+          "rz_override": "Root Zone Depth Override (inches)",
+          "zone_area_sqft": "Zone Area (sq ft, optional)",
+          "zone_priority": "Zone Priority (1=highest)"
+        }
+      },
+      "select_zone": {
+        "title": "Select a Zone to Edit",
+        "data": {
+          "zone_id": "Zone"
+        }
+      },
+      "edit_zone": {
+        "title": "Edit Irrigation Zone",
+        "description": "Editing \"{zone_name}\". Current values are pre-filled below.",
         "data": {
           "zone_name": "Zone Name",
           "zone_short_name": "Short Name (max 6 chars)",

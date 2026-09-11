@@ -124,8 +124,12 @@ ZONE_SCHEMA = vol.Schema(
     {
         vol.Required("zone_name"): str,
         vol.Required("zone_short_name"): vol.All(str, vol.Length(max=6)),
+        # Accepts both: BHyve hose timers expose as `switch`, but native HA
+        # valves (and other zone hardware) use the `valve` domain. Phase 2's
+        # valve-control code will need to branch on the entity's domain to
+        # call switch.turn_on/off vs valve.open_valve/close_valve.
         vol.Required("valve_entity"): selector.EntitySelector(
-            selector.EntitySelectorConfig(domain="switch")
+            selector.EntitySelectorConfig(domain=["switch", "valve"])
         ),
         vol.Optional("water_sensor_entity"): selector.EntitySelector(
             selector.EntitySelectorConfig(
